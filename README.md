@@ -62,7 +62,7 @@
   - `git checkout -b test`：创建`test`分支并切换到`test`分支
   - `git merge test`：假设当前处于`master`分支，执行这个命令即将`test`分支`merge`到`master`上，但不会产生新的`commit`，会把靠后的那个分支指向最新的一个`commit` 上面
   - `git merge --no-ff test`：(`ff`：`fast forward`)假设当前处于`master`分支，执行这个命令即将`test`分支`merge`到`master`上，这个`merge`操作会生成一个新的`commit``
-  - ``git branch -v`：显示当前分支最新的一条提交信息
+  - `git branch -v`：显示当前分支最新的一条提交信息
   - `HEAD`：永远指向当前分支（`.git`目录下的一个文件）
   - `git log --graph`：图形化方式显示日志
   - `git commit -am "message"`：添加当前目录的所有文件并提交（该文件必须已经被`git`管理，即已经被`git add`的文件，在`commit`后，如果被修改，`git commit -am`相当于`add`再`commit`，但如果是新建的文件，必须先`git add`）
@@ -115,7 +115,7 @@
 
   - `git config --global alias.br branch`：将`branch`设置别名为`br`，之前的`git branch -a`命令可以用`git br -a`替代了，对应的配置文件位于`~/.gitconfig`
 - `refpsec`：本地分支与远程分支的对应关系，默认情况下，`refspec`会被`git remote add`命令所自动生成，`git`会获取远端上`refs/heads`下的所有引用，并将它们写到本地的`refs/remotes/origin`目录下。所以，如果远端上有一个`master`分支，你在本地就可以通过下面几种方式来访问它们的历史记录：`git log origin/master`、`git log remotes/origin/master`、`git log refs/remotes/origin/master`
-  - 如果想将本地`develop`分支`push`到远程，但远程没有分支与之对应，会报错，需要用`git push --set-upstream origin develop`命令或者`git push -u origin develop`命令，让远程的`develop`分支与本地分支对应
+  - 如果想将本地`develop`分支`push`到远程，但远程没有分支与之对应，会报错，需要用`git push --set-upstream origin develop`命令或者`git push -u origin develop`命令，让远程的`develop`分支与本地分支对应，但如果执行这条命令时，远程没有`develop`分支就会报错，此时需要先执行`git push origin src:develop`创建`develop`分支并推送。
   - 远程创建新的`develop`分之后，假设另外一个人执行`git pull`，那么另外一个人会看到`origin/develop`这个新建的远程分支，但他本地的分支不会变（即他本地是没有`develop`这个分之的），如果他想接着远程那个分支开发，需要执行`git checkout -b develop origin/develop`或者`git checkout --track origin/develop`命令（这两个命令的区别就是第一个可以指定本地分支的名字，第二个命令不指定名字，默认名字与远程一致），在本地新建一个分支与远程的`develop`分支一致，而不是执行 `git checkout -b develop`，因为他需要和远程的`develop`保持一致，而不是与本地的`master`分支一致
 - 删除远程分支
   - `git push`完整写法：`git push origin src:dest`，`src`：本地分支，`dest`：远程分支，将`src`这个本地分之推送到远程的`desc`这个分之，所以删除远程分支可以是`git push origin  :develop`：即把空格作为`src`，即可删除远程的`develop`分支
