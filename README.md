@@ -353,8 +353,13 @@
 - `test`分支上执行`git merge develop`：将`develop`分支的所有修改应用到`test`分支上
 
 - `test`分支上执行`git rebase develop`：以`develop`分支为基，将`test`上的提交以补丁的方式保存起来，再将补丁以回放的方式在`develop`分支上进行一个个的应用，应用之后，`test`上的提交就没用了。
+- 比如，原来的分支情况
+    ![img/rebase30.png]
+- 在`master`上执行`git rebase test`后，`master`上的`commit`会以补丁的形式一个个应用到`test`上，所以`master`的`commit`情况变为
+    ![img/rebase31.png]
+  
 
-
+- [rebase后push的问题](https://www.cnblogs.com/xinmengwuheng/p/11301657.html)
 
 
 
