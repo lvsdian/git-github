@@ -6,14 +6,22 @@
 2. `~/.gitconfig`：`git config --global`
 3. 特定项目的`.git/config`文件中：`git config --local`
 
+### 撤销
+- `test.txt`已经被git管理，然后在工作空间对其做了修改
+#### 工作空间修改，未add
+  - `git checkout -- test.txt`,或者用`git checkout .`放弃所有修改
+#### 工作空间修改，已add,未commit
+  - `git reset HEAD test.txt`放弃指定文件的缓存，或者用`git reset HEAD .`放弃所有缓存，然后再执行"工作空间修改，未add"的命令进行回退
+#### 工作空间修改，已commit
+  - `git reset --hard HEAD^`来回退上一版本，或者`git reset --hard 【commit_id】`回退到具体某一版本。
 ### `git rm`、`rm`、`git mv`、`mv`
 
-- `git rm`：比如有个`test.txt`文件已经`commit`到本地仓库，运行`git rm test.txt`表示将其删除，并将此操作提交到暂存区，此时`test.txt`已从工作空间移除。 
+- `git rm`：比如有个`test.txt`文件已经`commit`到本地仓库，执行`git rm test.txt`表示：将其从工作空间删除，并将此操作提交到暂存区。 
 - 如果想要将这个操作`commit`到本地仓库，只需要运行`git commit  -m "..."`即可。
   - 如果想要回退删除操作，就要进行两步
     - 将暂存区回退到工作区：`git reset HEAD test.txt`，相当于`test.txt`在`commit`后，直接执行了`rm`，但并未将这个`rm`操作添加到暂存区
     - 将删除的这个动作丢弃：`git checkout -- test.txt`，即取消这个`rm`操作，恢复`test.txt`文件
-- `git rm --cached test.txt`：将已经`commit`的`test.txt`删掉，这个删除的动作会添加到暂存区，`test.txt`文件本身已经从暂存区移除，变为未追踪的状态，工作空间中还存在`test.txt`文件，直接使用操作系统`rm`删掉即可。
+- `git rm --cached test.txt`：将已经`commit`的`test.txt`删掉，这个删除的动作会添加到暂存区，`test.txt`文件本身已经从暂存区移除，变为未追踪的状态，但工作空间中还存在`test.txt`文件。
 - `rm`：对于操作系统的`rm`命令，`rm test.txt`只是将这个文件删除，并未将操作添加到暂存区。
 - `git mv`：比如一个`a.txt`文件已经`git commit -m "..."`提交到本地仓库，此时执行`git mv a.txt b.txt`表示将`a.txt`重命名为`b.txt`并将操作添加到暂存区。`git status`：`          renamed:a.txt -> b.txt`
 - 如果想要回退
