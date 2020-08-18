@@ -230,6 +230,7 @@
   - `develop`就恢复到了初始状态
 
 ### `merge`、`rebase`
+- `git rebase -i HEAD~3`：合并3个`commit`
 
 - `git rebase`   `git merge`
 
