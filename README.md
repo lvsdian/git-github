@@ -9,28 +9,27 @@
 ### 撤销
 - `test.txt`已经被git管理，然后在工作空间对其做了修改
 #### 工作空间修改，未add
-  - `git checkout -- test.txt`,或者用`git checkout .`放弃所有修改
+  - 执行`git checkout -- test.txt`即可撤销,或者用`git checkout .`放弃所有修改
 #### 工作空间修改，已add,未commit
-  - `git reset HEAD test.txt`放弃指定文件的缓存，或者用`git reset HEAD .`放弃所有缓存，然后再执行"工作空间修改，未add"的命令进行回退
+  - `git reset HEAD test.txt`放弃指定文件的缓存，或者用`git reset HEAD .`放弃所有缓存，然后再执行**工作空间修改，未add**的命令进行回退
 #### 工作空间修改，已commit
   - `git reset --hard HEAD^`来回退上一版本，或者`git reset --hard 【commit_id】`回退到具体某一版本。
 ### `git rm`、`rm`、`git mv`、`mv`
 
 - `git rm`：比如有个`test.txt`文件已经`commit`到本地仓库，执行`git rm test.txt`表示：将其从工作空间删除，并将此操作提交到暂存区。 
 - 如果想要将这个操作`commit`到本地仓库，只需要运行`git commit  -m "..."`即可。
-  - 如果想要回退删除操作，就要进行两步
-    - 将暂存区回退到工作区：`git reset HEAD test.txt`，相当于`test.txt`在`commit`后，直接执行了`rm`，但并未将这个`rm`操作添加到暂存区
-    - 将删除的这个动作丢弃：`git checkout -- test.txt`，即取消这个`rm`操作，恢复`test.txt`文件
+- 如果想要回退删除操作，需要执行上述**工作空间修改，已add,未commit**操作：
+    - 将暂存区回退到工作区：`git reset HEAD test.txt`
+    - 将删除的这个动作丢弃：`git checkout -- test.txt`
 - `git rm --cached test.txt`：将已经`commit`的`test.txt`删掉，这个删除的动作会添加到暂存区，`test.txt`文件本身已经从暂存区移除，变为未追踪的状态，但工作空间中还存在`test.txt`文件。
+- 如果想要回退这个操作，只需执行`git reset HEAD test.txt`命令即可。
 - `rm`：对于操作系统的`rm`命令，`rm test.txt`只是将这个文件删除，并未将操作添加到暂存区。
-- `git mv`：比如一个`a.txt`文件已经`git commit -m "..."`提交到本地仓库，此时执行`git mv a.txt b.txt`表示将`a.txt`重命名为`b.txt`并将操作添加到暂存区。`git status`：`          renamed:a.txt -> b.txt`
-- 如果想要回退
+- `git mv`：比如一个`a.txt`文件已经`git commit -m "..."`提交到本地仓库，此时执行`git mv a.txt b.txt`表示将`a.txt`重命名为`b.txt`并将操作添加到暂存区。
+- 如果想要回退,需要执行上述**工作空间修改，已add,未commit**操作
     - 将暂存区退回到工作区，把暂存区的修改撤销掉：` git reset HEAD a.txt`，
-    - `git status`：`new file:b.txt`(已`add`)、`deleted:a.txt`(未`add`)
     - 将重命名这个动作丢弃：`git checkout -- a.txt`，
-    - 此时会存在`a.txt`、`b.txt`两个文件，`git status`：`new file: b.txt`(已`add`)
     - 将暂存区退回到工作区：` git reset HEAD b.txt`，
-    - `git status`：`b.txt`(未`add`)，直接将`b.txt`删除即可恢复原始状态
+    - 删除`b.txt`文件：`rm b.txt`即可
 - `git checkout -- <file>`：
      	1. `file`修改后暂未`add`：撤销修改回到和版本库一模一样的状态(回到最近一次`commit`状态)
      	2. `file`已`add`，然后被修改：撤销修改回到添加到暂存区后的状态。(回到最近一次`add`状态)
