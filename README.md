@@ -1,4 +1,3 @@
-[toc]
 
 ### `user.name`和`user.eamil`配置位置
 
@@ -6,6 +5,9 @@
 2. `~/.gitconfig`：`git config --global`
 3. 特定项目的`.git/config`文件中：`git config --local`
 
+`git config --local user.name "lsd"`
+
+`git config --local user.email "1121840811@qq.com"`
 ### 撤销
 - `test.txt`已经被git管理，然后在工作空间对其做了修改
 #### 工作空间修改，未add
